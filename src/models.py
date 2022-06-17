@@ -15,7 +15,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     password = Column(String(8), nullable=False)
-    addresses = relationship('favoritos', backref='user', lazy=True)
+    favoriteUser = relationship('favoritos', backref='user', lazy=True)
 
 class Personajes(Base):
     __tablename__ = 'personajes'
@@ -29,7 +29,7 @@ class Personajes(Base):
     pelo = Column(String(20))
     altura= Column(Integer)
     peso= Column(Integer)
-    addresses = relationship('personajes', backref='user', lazy=True)
+    favoritePersonaje = relationship('personajes', backref='user', lazy=True)
 
 class Planetas(Base):
     __tablename__ = 'planetas'
@@ -40,8 +40,8 @@ class Planetas(Base):
     clima = Column(String(250))
     poblacion = Column(Integer)
     rotacion = Column(String(20))
-    addresses = relationship('personajes', backref='planetas', lazy=True)
-    addresses = relationship('planetas', backref='user', lazy=True)
+    planetPersonaje = relationship('personajes', backref='planetas', lazy=True)
+    favoritePlanet = relationship('planetas', backref='user', lazy=True)
 
 class Vehiculos(Base):
     __tablename__ = 'vehiculos'
@@ -51,7 +51,7 @@ class Vehiculos(Base):
     name = Column(String(250))
     cilindrada = Column(Integer)
     capacidad = Column(Integer)
-    addresses = relationship('favoritos', backref='vehiculos', lazy=True)
+    favoriteVehiculo = relationship('favoritos', backref='vehiculos', lazy=True)
     
 
 class Favoritos(Base):
