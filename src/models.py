@@ -8,23 +8,47 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+class User(Base):
+    __tablename__ = 'user'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    password = Column(String(8), nullable=False)
+    addresses = relationship('favoritos', backref='user', lazy=True)
 
-class Address(Base):
-    __tablename__ = 'address'
+class Personajes(Base):
+    __tablename__ = 'personajes'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    name = Column(String(250))
+    lastname = Column(String(250))
+    id_planeta = Column(Integer, ForeignKey('planetas.id'), nullable=False)
+    ojos = Column(String(20))
+    pelo = Column(String(20))
+    altura= Column(Integer)
+    peso= Column(Integer)
+    addresses = relationship('personajes', backref='user', lazy=True)
+
+class Planetas(Base):
+    __tablename__ = 'planetas'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+    clima = Column(String(250))
+    poblacion = Column(Integer)
+    rotacion = Column(String(20))
+    addresses = relationship('personajes', backref='planetas', lazy=True)
+    addresses = relationship('planetas', backref='user', lazy=True)
+
+class Favoritos(Base):
+    __tablename__ = 'favoritos'
+    id = Column(Integer, primary_key=True)
+    id_user = Column(Integer, ForeignKey('user.id'),nullable=False)
+    id_personaje = Column(Integer, ForeignKey('personajes.id'),nullable=False)
+    id_planeta = Column(Integer, ForeignKey('planetas.id'),nullable=False)
 
     def to_dict(self):
         return {}
