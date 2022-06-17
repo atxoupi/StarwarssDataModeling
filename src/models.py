@@ -43,12 +43,24 @@ class Planetas(Base):
     addresses = relationship('personajes', backref='planetas', lazy=True)
     addresses = relationship('planetas', backref='user', lazy=True)
 
+class Vehiculos(Base):
+    __tablename__ = 'vehiculos'
+    # Here we define columns for the table address.
+    # Notice that each column is also a normal Python instance attribute.
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+    cilindrada = Column(Integer)
+    capacidad = Column(Integer)
+    addresses = relationship('favoritos', backref='vehiculos', lazy=True)
+    
+
 class Favoritos(Base):
     __tablename__ = 'favoritos'
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey('user.id'),nullable=False)
     id_personaje = Column(Integer, ForeignKey('personajes.id'),nullable=False)
     id_planeta = Column(Integer, ForeignKey('planetas.id'),nullable=False)
+    id_vehiculo = Column(Integer, ForeignKey('vehiculos.id'),nullable=False)
 
     def to_dict(self):
         return {}
